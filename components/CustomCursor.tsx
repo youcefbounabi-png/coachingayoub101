@@ -4,8 +4,26 @@ const CustomCursor: React.FC = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
     const [visible, setVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        const checkMobile = () => {
+            // Check if device has no fine pointer OR viewport is mobile-sized
+            const hasNoFinePointer = !window.matchMedia('(pointer: fine)').matches;
+            const isMobileViewport = window.innerWidth < 768;
+            setIsMobile(hasNoFinePointer || isMobileViewport);
+        };
+
+        checkMobile();
+
+        // Re-check on resize for DevTools emulation
+        window.addEventListener('resize', checkMobile);
+
+        if (isMobile) {
+            return () => {
+                window.removeEventListener('resize', checkMobile);
+            };
+        }
         const updateCursorPosition = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
             setVisible(true);
@@ -31,10 +49,11 @@ const CustomCursor: React.FC = () => {
         return () => {
             window.removeEventListener('mousemove', updateCursorPosition);
             window.removeEventListener('mouseover', handleMouseOver);
+            window.removeEventListener('resize', checkMobile);
         };
-    }, []);
+    }, [isMobile]);
 
-    if (!visible) return null;
+    if (isMobile || !visible) return null;
 
     return (
         <div

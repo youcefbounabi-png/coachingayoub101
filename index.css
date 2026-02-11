@@ -9,8 +9,13 @@ body {
     scroll-behavior: auto;
     /* Allow Lenis to handle scroll */
     overflow-x: hidden;
-    cursor: none;
-    /* Hide default cursor for custom cursor implementation */
+}
+
+@media (pointer: fine) {
+    body {
+        cursor: none;
+        /* Hide default cursor for custom cursor implementation */
+    }
 }
 
 /* Custom Scrollbar - kept for fallback/visual */
@@ -115,10 +120,13 @@ body {
 }
 
 /* Interactive Elements (Buttery Clicks) */
-button,
-a {
-    cursor: none;
-    /* Let custom cursor handle indicating interaction */
+@media (pointer: fine) {
+
+    button,
+    a {
+        cursor: none;
+        /* Let custom cursor handle indicating interaction */
+    }
 }
 
 /* Helper class if something needs default cursor */
