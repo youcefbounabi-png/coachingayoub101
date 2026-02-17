@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const formData = req.body as ContactFormData;
 
         // Validate required fields
-        if (!formData.name || !formData.email || !formData.message) {
+        if (!formData.name || !formData.email || !formData.goal) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
@@ -59,10 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                         <p style="white-space: pre-wrap;">${formData.goal}</p>
                     </div>
                     
-                    <div style="background: #0A0A0A; color: #FFFFFF; padding: 20px; margin: 20px 0;">
-                        <h3 style="color: #F7E025; margin-top: 0;">Message</h3>
-                        <p style="white-space: pre-wrap;">${formData.message}</p>
-                    </div>
+
                     
                     <p style="color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
                         This application was submitted via the Ayoub CMB coaching website.
