@@ -1,9 +1,40 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PROGRAMS } from '../constants';
 import { NavLink } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const Programs: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCheckout = async (planId?: string) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/stripe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planId }),
+      });
+      const { url } = await response.json();
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      // Redirect to Stripe Checkout using the session URL
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (error) {
+      console.error('Checkout failed:', error);
+      alert('Checkout failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="pt-32 pb-20">
       <section className="max-w-7xl mx-auto px-6">
@@ -46,12 +77,13 @@ const Programs: React.FC = () => {
                 ))}
               </ul>
 
-              <NavLink
-                to={`/programs/${program.id}`}
-                className="w-full py-4 md:py-5 text-center font-black tracking-wider md:tracking-[0.2em] text-sm md:text-base bg-white text-dark hover:bg-accent transition-colors"
+              <button
+                onClick={() => handleCheckout(program.id)}
+                disabled={isLoading}
+                className={`w-full py-4 md:py-5 text-center font-black tracking-wider md:tracking-[0.2em] text-sm md:text-base bg-white text-dark hover:bg-accent transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                SELECT {program.level}
-              </NavLink>
+                {isLoading ? 'PROCESSING...' : `SELECT ${program.level}`}
+              </button>
             </div>
           ))}
         </div>

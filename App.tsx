@@ -9,6 +9,8 @@ import ProgramDetail from './sections/ProgramDetail';
 import Results from './sections/Results';
 import ResultDetail from './sections/ResultDetail';
 import Contact from './sections/Contact';
+import Success from './sections/Success';
+import Cancel from './sections/Cancel';
 import CustomCursor from './components/CustomCursor';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 
@@ -34,6 +36,8 @@ const App: React.FC = () => {
           <Route path="/results" element={<Results />} />
           <Route path="/results/:id" element={<ResultDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancel" element={<Cancel />} />
         </Routes>
       </main>
       <Footer />

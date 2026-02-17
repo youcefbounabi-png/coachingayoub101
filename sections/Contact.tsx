@@ -9,10 +9,42 @@ const Contact: React.FC = () => {
     goal: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Application Received. Coach Ayoub will review your data and reach out via email within 48 hours.");
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Reset form
+        setFormState({
+          name: '',
+          email: '',
+          experience: 'Beginner',
+          goal: '',
+          message: ''
+        });
+      } else {
+        throw new Error(data.error || 'Submission failed');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -101,9 +133,29 @@ const Contact: React.FC = () => {
                 ></textarea>
               </div>
 
-              <button type="submit" className="w-full py-6 bg-accent text-dark font-black tracking-[0.3em] text-xl hover:bg-white transition-all transform active:scale-95">
-                SUBMIT APPLICATION
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full py-6 bg-accent text-dark font-black tracking-[0.25em] text-lg hover:bg-white transition-all transform hover:-translate-y-2 hover:shadow-[15px_15px_0px_0px_rgba(255,255,255,1)] uppercase ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {isSubmitting ? 'SENDING...' : 'APPLY NOW'}
               </button>
+
+              {submitStatus === 'success' && (
+                <div className="p-4 bg-green-600 border-4 border-white mt-6">
+                  <p className="text-white font-black tracking-wider text-sm uppercase text-center">
+                    ✓ Application Received! Coach will contact you within 48 hours.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="p-4 bg-red-600 border-4 border-white mt-6">
+                  <p className="text-white font-black tracking-wider text-sm uppercase text-center">
+                    ✗ Submission failed. Please try again or email directly: youcefbounabi@gmail.com
+                  </p>
+                </div>
+              )}
 
               <div className="text-center pt-4">
                 <p className="text-xs font-bold text-gray-500 mb-4 uppercase tracking-widest">OR CONNECT DIRECTLY</p>
