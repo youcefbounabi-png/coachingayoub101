@@ -16,12 +16,6 @@ const CustomCursor: React.FC = () => {
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
-        if (isMobile) {
-            return () => {
-                window.removeEventListener('resize', checkMobile);
-            };
-        }
-
         const updateCursorPosition = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
             setVisible(true);
@@ -29,6 +23,8 @@ const CustomCursor: React.FC = () => {
 
         const handleMouseOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
+            if (!target) return;
+
             const isInteractive =
                 target.tagName === 'BUTTON' ||
                 target.tagName === 'A' ||
@@ -47,7 +43,7 @@ const CustomCursor: React.FC = () => {
             window.removeEventListener('mouseover', handleMouseOver);
             window.removeEventListener('resize', checkMobile);
         };
-    }, [isMobile]);
+    }, []);
 
     if (isMobile || !visible) return null;
 
