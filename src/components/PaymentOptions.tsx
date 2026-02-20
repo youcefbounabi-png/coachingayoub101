@@ -23,22 +23,22 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ planId }),
             });
-            
+
             if (!res.ok) {
                 const errorData = await res.json().catch(() => ({ error: 'Network error' }));
                 throw new Error(errorData.error || `Chargily checkout failed (${res.status})`);
             }
-            
+
             const data = await res.json();
             if (!data.checkoutUrl) {
                 throw new Error('No checkout URL received from Chargily');
             }
-            
+
             window.location.href = data.checkoutUrl;
         } catch (err) {
             const e = err as Error;
             const errorMessage = e.message.includes('Failed to fetch') || e.message.includes('Network')
-                ? 'Payment service unavailable. Please ensure you are running on Vercel or using "vercel dev" for local testing.'
+                ? 'Payment service unavailable. Please check your internet connection and try again.'
                 : e.message;
             setError(errorMessage);
             setLoading(false);
@@ -54,12 +54,12 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ planId }),
             });
-            
+
             if (!res.ok) {
                 const errorData = await res.json().catch(() => ({ error: 'Network error' }));
                 throw new Error(errorData.error || `PayPal order creation failed (${res.status})`);
             }
-            
+
             const data = await res.json();
             // Redirect to PayPal approval URL
             if (data.approveUrl) {
@@ -70,7 +70,7 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
         } catch (err) {
             const e = err as Error;
             const errorMessage = e.message.includes('Failed to fetch') || e.message.includes('Network')
-                ? 'Payment service unavailable. Please ensure you are running on Vercel or using "vercel dev" for local testing.'
+                ? 'Payment service unavailable. Please check your internet connection and try again.'
                 : e.message;
             setError(errorMessage);
             setLoading(false);

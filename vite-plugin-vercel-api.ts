@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite';
+import { Plugin, loadEnv } from 'vite';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { IncomingMessage, ServerResponse } from 'http';
 
@@ -17,17 +17,21 @@ export function vercelApiPlugin(): Plugin {
                 const apiFile = apiPath.split('?')[0]; // Remove query params
 
                 try {
-                    // Load environment variables into process.env
-                    // This ensures API handlers have access to them
-                    if (!process.env.RESEND_API_KEY && server.config.env.RESEND_API_KEY) {
-                        process.env.RESEND_API_KEY = server.config.env.RESEND_API_KEY;
-                    }
-                    if (!process.env.STRIPE_SECRET_KEY && server.config.env.STRIPE_SECRET_KEY) {
-                        process.env.STRIPE_SECRET_KEY = server.config.env.STRIPE_SECRET_KEY;
+                    // Load environment variables into process.env locally
+                    // Use Vite's built-in loadEnv to properly load non-VITE variables
+                    try {
+                        const env = loadEnv(server.config.mode || 'development', process.cwd(), '');
+                        for (const k in env) {
+                            if (!process.env[k]) {
+                                process.env[k] = env[k];
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Failed to load local environment variables', e);
                     }
 
                     // Dynamically import the API handler
-                    const handlerModule = await import(`./api/${apiFile}.ts?t=${Date.now()}`);
+                    const handlerModule = await server.ssrLoadModule(`/api/${apiFile}.ts`);
                     const handler = handlerModule.default;
 
                     // Convert Node req/res to Vercel Request/Response format

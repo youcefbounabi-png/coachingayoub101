@@ -16,24 +16,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
         const origin = req.headers.origin || 'https://ayoubcmb.com';
+        const isTestMode = process.env.CHARGILY_API_KEY?.startsWith('test_');
+        const baseUrl = isTestMode ? 'https://pay.chargily.net/test/api/v2/checkouts' : 'https://pay.chargily.net/api/v2/checkouts';
 
-        const chargilyRes = await fetch('https://pay.chargily.net/api/v2/checkouts', {
+        // Chargily validates URLs; localhost will fail checking
+        const validOrigin = origin.includes('localhost') ? 'https://ayoubcmb.com' : origin;
+        const webhookEndpoint = `${validOrigin}/api/webhook/chargily`;
+
+        const payload: any = {
+            amount: plan.amountDZD,
+            currency: 'dzd',
+            success_url: `${validOrigin}/success`,
+            failure_url: `${validOrigin}/cancel`,
+            description: plan.name,
+            metadata: { planId },
+            locale: 'fr',
+            payment_method: 'edahabia',
+        };
+
+        // Webhooks must be publicly verifiable HTTPS endpoints, so omit locally
+        if (!origin.includes('localhost')) {
+            payload.webhook_endpoint = webhookEndpoint;
+        }
+
+        const chargilyRes = await fetch(baseUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${process.env.CHARGILY_API_KEY}`,
             },
-            body: JSON.stringify({
-                amount: plan.amountDZD,
-                currency: 'dzd',
-                success_url: `${origin}/success`,
-                failure_url: `${origin}/cancel`,
-                webhook_endpoint: `${origin}/api/webhook/chargily`,
-                description: plan.name,
-                metadata: { planId },
-                locale: 'fr',
-                payment_method: 'edahabia',
-            }),
+            body: JSON.stringify(payload),
         });
 
         const checkout = await chargilyRes.json() as { checkout_url?: string; errors?: unknown };
