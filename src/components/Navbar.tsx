@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
     const { t } = useTranslation();
 
     return (
-        <nav className="fixed top-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b border-border shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+        <nav className="fixed top-0 left-0 w-full z-50 bg-black backdrop-blur-md border-b border-border shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <NavLink to="/" className="text-2xl font-black font-heading tracking-tighter hover:text-accent transition-colors">
                     AYOUB <span className="text-accent">CMB</span>
@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className="md:hidden absolute top-20 left-0 w-full bg-surface/98 backdrop-blur-xl border-b border-border flex flex-col items-center py-10 space-y-8 shadow-2xl"
+                        className="md:hidden absolute top-20 left-0 w-full bg-black backdrop-blur-xl border-b border-border flex flex-col items-center py-10 space-y-8 shadow-2xl"
                     >
                         {NAV_ITEMS.map((item, i) => (
                             <motion.div
