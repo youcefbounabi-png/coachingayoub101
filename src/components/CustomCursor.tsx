@@ -23,14 +23,14 @@ const CustomCursor: React.FC = () => {
 
         const handleMouseOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            if (!target) return;
+            if (!target || !(target instanceof Element)) return;
 
             const isInteractive =
                 target.tagName === 'BUTTON' ||
                 target.tagName === 'A' ||
-                target.closest('button') ||
-                target.closest('a') ||
-                target.classList.contains('cursor-pointer') ||
+                target.closest?.('button') ||
+                target.closest?.('a') ||
+                target.classList?.contains('cursor-pointer') ||
                 window.getComputedStyle(target).cursor === 'pointer';
             setIsHovering(!!isInteractive);
         };
