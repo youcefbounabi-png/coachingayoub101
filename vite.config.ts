@@ -1,20 +1,20 @@
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { vercelApiPlugin } from './vite-plugin-vercel-api';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, '.', '');
-  return {
-    server: {
-      port: 3000,
-      host: '0.0.0.0',
-    },
-    plugins: [react(), vercelApiPlugin()],
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
-      }
+export default defineConfig({
+  server: {
+    // Port will be managed by Vite
+  },
+  plugins: [react(), vercelApiPlugin()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     }
-  };
+  },
+  // Prevent Vite from crawling/transforming api/ serverless functions
+  optimizeDeps: {
+    exclude: [],
+  },
 });
