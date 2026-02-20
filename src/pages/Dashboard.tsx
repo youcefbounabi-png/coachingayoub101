@@ -14,6 +14,19 @@ interface Payment {
     created_at: string;
 }
 
+interface Lead {
+    id: string;
+    full_name: string;
+    email: string;
+    phone: string;
+    height: number;
+    weight: number;
+    health_problems: string;
+    physique_photos: string[];
+    plan_id: string;
+    created_at: string;
+}
+
 interface Contact {
     id: string;
     name: string;
@@ -24,13 +37,14 @@ interface Contact {
     created_at: string;
 }
 
-type Tab = 'payments' | 'contacts';
+type Tab = 'payments' | 'contacts' | 'leads';
 
 const Dashboard: React.FC = () => {
     const [secret, setSecret] = useState('');
     const [inputSecret, setInputSecret] = useState('');
     const [payments, setPayments] = useState<Payment[]>([]);
     const [contacts, setContacts] = useState<Contact[]>([]);
+    const [leads, setLeads] = useState<Lead[]>([]);
     const [activeTab, setActiveTab] = useState<Tab>('payments');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -39,12 +53,13 @@ const Dashboard: React.FC = () => {
         setLoading(true);
         setError('');
         try {
-            const [pRes, cRes] = await Promise.all([
+            const [pRes, cRes, lRes] = await Promise.all([
                 fetch(`/api/dashboard/payments?secret=${encodeURIComponent(s)}`),
                 fetch(`/api/dashboard/contacts?secret=${encodeURIComponent(s)}`),
+                fetch(`/api/dashboard/leads?secret=${encodeURIComponent(s)}`),
             ]);
 
-            if (pRes.status === 401 || cRes.status === 401) {
+            if (pRes.status === 401 || cRes.status === 401 || lRes.status === 401) {
                 setError('Invalid secret. Access denied.');
                 setSecret('');
                 setLoading(false);
@@ -53,12 +68,15 @@ const Dashboard: React.FC = () => {
 
             const pData = await pRes.json();
             const cData = await cRes.json();
+            const lData = await lRes.json();
 
             if (!pRes.ok) throw new Error(pData.error || 'Failed to fetch payments');
             if (!cRes.ok) throw new Error(cData.error || 'Failed to fetch contacts');
+            if (!lRes.ok) throw new Error(lData.error || 'Failed to fetch leads');
 
             setPayments(pData);
             setContacts(cData);
+            setLeads(lData);
             setSecret(s);
         } catch (err) {
             const e = err as Error;
@@ -211,8 +229,8 @@ const Dashboard: React.FC = () => {
                         {[
                             { label: 'TOTAL PAYMENTS', value: payments.length },
                             { label: 'SUCCESSFUL', value: payments.filter(p => p.status === 'paid').length },
-                            { label: '~EST. REVENUE (USD)', value: `$${totalRevenue.toFixed(0)}` },
-                            { label: 'CONTACT REQUESTS', value: contacts.length },
+                            { label: 'ATHLETE PROTOCOLS', value: leads.length },
+                            { label: 'EST. REVENUE (USD)', value: `$${totalRevenue.toFixed(0)}` },
                         ].map(stat => (
                             <div key={stat.label} style={{ background: '#111', border: '2px solid #222', padding: '1.25rem 1.5rem' }}>
                                 <div style={{ fontSize: '10px', letterSpacing: '0.3em', color: '#555', fontWeight: 900, marginBottom: '0.5rem' }}>{stat.label}</div>
@@ -222,8 +240,8 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     {/* Tabs */}
-                    <div style={{ display: 'flex', borderBottom: '2px solid #222', marginBottom: '1.5rem' }}>
-                        {(['payments', 'contacts'] as Tab[]).map(tab => (
+                    <div style={{ display: 'flex', borderBottom: '2px solid #222', marginBottom: '1.5rem', overflowX: 'auto', gap: '0.5rem' }}>
+                        {(['payments', 'leads', 'contacts'] as Tab[]).map(tab => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -234,14 +252,17 @@ const Dashboard: React.FC = () => {
                                     borderBottom: activeTab === tab ? '3px solid #e8ff00' : '3px solid transparent',
                                     color: activeTab === tab ? '#e8ff00' : '#555',
                                     fontWeight: 900,
-                                    fontSize: '12px',
-                                    letterSpacing: '0.3em',
+                                    fontSize: '11px',
+                                    letterSpacing: '0.2em',
                                     cursor: 'pointer',
                                     textTransform: 'uppercase',
+                                    whiteSpace: 'nowrap',
                                     marginBottom: '-2px',
                                 }}
                             >
-                                {tab === 'payments' ? `PAYMENTS (${payments.length})` : `CONTACTS (${contacts.length})`}
+                                {tab === 'payments' ? `PAYMENTS (${payments.length})` :
+                                    tab === 'leads' ? `PROTOCOLS (${leads.length})` :
+                                        `CONTACTS (${contacts.length})`}
                             </button>
                         ))}
                         <button
@@ -279,6 +300,57 @@ const Dashboard: React.FC = () => {
                                             <td style={{ padding: '0.9rem 1rem', fontWeight: 900, color: '#e8ff00' }}>{formatAmount(p.amount, p.currency)}</td>
                                             <td style={{ padding: '0.9rem 1rem' }}>
                                                 <span style={{ color: statusColor(p.status), fontWeight: 900, fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase' }}>{p.status}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    {/* Leads Table */}
+                    {activeTab === 'leads' && (
+                        <div style={{ overflowX: 'auto' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                                <thead>
+                                    <tr style={{ borderBottom: '2px solid #222' }}>
+                                        {['DATE', 'ATHLETE', 'EMAIL', 'STATS', 'PLAN', 'PHOTOS'].map(h => (
+                                            <th key={h} style={{ textAlign: 'left', padding: '0.75rem 1rem', fontSize: '10px', color: '#555', fontWeight: 900, letterSpacing: '0.3em', whiteSpace: 'nowrap' }}>{h}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {leads.length === 0 ? (
+                                        <tr><td colSpan={6} style={{ padding: '3rem', textAlign: 'center', color: '#333', fontWeight: 700 }}>No protocols yet</td></tr>
+                                    ) : leads.map(l => (
+                                        <tr key={l.id} style={{ borderBottom: '1px solid #1a1a1a' }}>
+                                            <td style={{ padding: '0.9rem 1rem', color: '#777', whiteSpace: 'nowrap' }}>{formatDate(l.created_at)}</td>
+                                            <td style={{ padding: '0.9rem 1rem', fontWeight: 700 }}>{l.full_name}</td>
+                                            <td style={{ padding: '0.9rem 1rem', color: '#aaa' }}>{l.email}</td>
+                                            <td style={{ padding: '0.9rem 1rem', color: '#aaa' }}>{l.height}cm / {l.weight}kg</td>
+                                            <td style={{ padding: '0.9rem 1rem', color: '#aaa', textTransform: 'uppercase', fontSize: '11px' }}>{l.plan_id}</td>
+                                            <td style={{ padding: '0.9rem 1rem' }}>
+                                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                    {l.physique_photos?.map((p, idx) => (
+                                                        <a
+                                                            key={idx}
+                                                            href={`https://samhtbfitcylijdejiye.supabase.co/storage/v1/object/public/physique-photos/${p}`}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            style={{
+                                                                display: 'inline-block',
+                                                                padding: '0.25rem 0.5rem',
+                                                                background: '#222',
+                                                                color: '#e8ff00',
+                                                                textDecoration: 'none',
+                                                                fontSize: '10px',
+                                                                fontWeight: 900,
+                                                                border: '1px solid #e8ff00'
+                                                            }}
+                                                        >
+                                                            #{idx + 1}
+                                                        </a>
+                                                    ))}
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}

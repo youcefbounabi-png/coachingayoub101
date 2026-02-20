@@ -2,7 +2,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import crypto from 'crypto';
 import { supabase } from '../_lib/supabase';
-import { sendPaymentSuccessEmail, sendCoachPaymentNotification } from '../_lib/emails';
+import { sendPaymentSuccessEmail, sendCoachPaymentNotification, sendCoachProtocolDetails } from '../_lib/emails';
 import { PLANS } from '../_lib/plans';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -29,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 status: string;
                 amount: number;
                 currency: string;
-                metadata?: { planId?: string };
+                metadata?: { planId?: string; leadId?: string };
                 customer?: { name?: string; email?: string };
             };
         };
@@ -63,10 +63,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Send emails
         if (clientEmail && plan) {
-            await Promise.allSettled([
+            // Fetch lead details if leadId exists in metadata
+            const leadId = data.metadata?.leadId;
+            let leadData = null;
+            if (leadId) {
+                const { data: lead } = await supabase
+                    .from('coaching_leads')
+                    .select('*')
+                    .eq('id', leadId)
+                    .single();
+                leadData = lead;
+            }
+
+            const notifications = [
                 sendPaymentSuccessEmail(clientEmail, clientName, data.amount, currency, plan.name, 'Chargily'),
-                sendCoachPaymentNotification(clientName, clientEmail, data.amount, currency, plan.name, 'Chargily'),
-            ]);
+            ];
+
+            if (leadData) {
+                notifications.push(sendCoachProtocolDetails(leadData, data.amount, currency, 'Chargily'));
+            } else {
+                notifications.push(sendCoachPaymentNotification(clientName, clientEmail, data.amount, currency, plan.name, 'Chargily'));
+            }
+
+            await Promise.allSettled(notifications);
         }
 
         return res.status(200).json({ received: true });

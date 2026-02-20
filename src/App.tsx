@@ -37,7 +37,6 @@ const MainLayout: React.FC = () => {
     return (
         <div className="flex flex-col min-h-screen relative">
             {/* <AnimatedBackground /> */}
-            <CustomCursor />
             <Navbar />
             <main className="flex-grow relative z-10">
                 <Outlet />
@@ -51,6 +50,7 @@ const MainLayout: React.FC = () => {
 const App: React.FC = () => {
     return (
         <Suspense fallback={<PageLoader />}>
+            <CustomCursor />
             <Routes>
                 {/* Dashboard — standalone, no Navbar/Footer */}
                 <Route path="/dashboard" element={<Dashboard />} />

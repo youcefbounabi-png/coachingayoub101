@@ -7,7 +7,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const { planId } = req.body as { planId?: string };
+    const { planId, leadId } = req.body as { planId?: string, leadId?: string };
     const plan = planId ? PLANS[planId] : null;
 
     if (!plan) {
@@ -29,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             success_url: `${validOrigin}/success`,
             failure_url: `${validOrigin}/cancel`,
             description: plan.name,
-            metadata: { planId },
+            metadata: { planId, leadId },
             locale: 'fr',
             payment_method: 'edahabia',
         };

@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const { planId } = req.body as { planId?: string };
+    const { planId, leadId } = req.body as { planId?: string, leadId?: string };
     const plan = planId ? PLANS[planId] : null;
 
     if (!plan) {
@@ -59,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                             value: amountUSD,
                         },
                         description: plan.name,
-                        custom_id: planId,
+                        custom_id: leadId || planId,
                     },
                 ],
                 application_context: {
@@ -75,16 +75,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const order = await orderRes.json() as { id: string; links?: Array<{ rel: string; href: string }> };
-        
+
         // Find the approval URL from the order links
         const approveLink = order.links?.find(link => link.rel === 'approve');
         if (!approveLink) {
             throw new Error('No approval URL found in PayPal order');
         }
 
-        return res.status(200).json({ 
+        return res.status(200).json({
             orderId: order.id,
-            approveUrl: approveLink.href 
+            approveUrl: approveLink.href
         });
     } catch (err) {
         const error = err as Error;

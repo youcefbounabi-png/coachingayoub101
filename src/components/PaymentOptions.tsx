@@ -5,11 +5,12 @@ interface PaymentOptionsProps {
     planName: string;
     priceUSD: string;
     priceDZD: string;
+    leadId?: string;
 }
 
 type Gateway = 'paypal' | 'chargily' | null;
 
-const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, priceUSD, priceDZD }) => {
+const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, priceUSD, priceDZD, leadId }) => {
     const [selected, setSelected] = useState<Gateway>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -21,7 +22,7 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
             const res = await fetch('/api/chargily/create-checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ planId }),
+                body: JSON.stringify({ planId, leadId }),
             });
 
             if (!res.ok) {
@@ -52,7 +53,7 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
             const res = await fetch('/api/paypal/create-order', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ planId }),
+                body: JSON.stringify({ planId, leadId }),
             });
 
             if (!res.ok) {

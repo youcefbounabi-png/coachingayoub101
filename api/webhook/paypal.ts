@@ -1,7 +1,7 @@
 // api/webhook/paypal.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { supabase } from '../_lib/supabase';
-import { sendPaymentSuccessEmail, sendCoachPaymentNotification } from '../_lib/emails';
+import { sendPaymentSuccessEmail, sendCoachPaymentNotification, sendCoachProtocolDetails } from '../_lib/emails';
 import { PLANS } from '../_lib/plans';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -62,10 +62,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Send emails (don't block webhook response)
         if (clientEmail && plan) {
-            await Promise.allSettled([
+            // In create-order.ts, we set custom_id to leadId || planId
+            const leadId = unit?.custom_id;
+            let leadData = null;
+
+            // Check if custom_id is a UUID (likely leadId)
+            if (leadId && leadId.length > 20) {
+                const { data: lead } = await supabase
+                    .from('coaching_leads')
+                    .select('*')
+                    .eq('id', leadId)
+                    .single();
+                leadData = lead;
+            }
+
+            const notifications = [
                 sendPaymentSuccessEmail(clientEmail, clientName, amountCents, currency, plan.name, 'PayPal'),
-                sendCoachPaymentNotification(clientName, clientEmail, amountCents, currency, plan.name, 'PayPal'),
-            ]);
+            ];
+
+            if (leadData) {
+                notifications.push(sendCoachProtocolDetails(leadData, amountCents, currency, 'PayPal'));
+            } else {
+                notifications.push(sendCoachPaymentNotification(clientName, clientEmail, amountCents, currency, plan.name, 'PayPal'));
+            }
+
+            await Promise.allSettled(notifications);
         }
 
         return res.status(200).json({ received: true });

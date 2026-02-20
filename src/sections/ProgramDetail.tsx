@@ -5,10 +5,12 @@ import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import { PROGRAMS } from '../lib/constants';
 import { ProgramPlan } from '../lib/types';
 import PaymentOptions from '../components/PaymentOptions';
+import OnboardingForm from '../components/OnboardingForm';
 
 const ProgramDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [program, setProgram] = useState<ProgramPlan | null>(null);
+    const [leadId, setLeadId] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -76,12 +78,20 @@ const ProgramDetail: React.FC = () => {
                                         ))}
                                     </ul>
                                 </div>
-                                <PaymentOptions
-                                    planId={program.id}
-                                    planName={program.name}
-                                    priceUSD={program.price}
-                                    priceDZD={program.id === 'basic' ? '20,000' : program.id === 'pro' ? '40,000' : '80,000'}
-                                />
+                                {leadId ? (
+                                    <PaymentOptions
+                                        planId={program.id}
+                                        planName={program.name}
+                                        priceUSD={program.price}
+                                        priceDZD={program.id === 'basic' ? '20,000' : program.id === 'pro' ? '40,000' : '80,000'}
+                                        leadId={leadId || undefined}
+                                    />
+                                ) : (
+                                    <OnboardingForm
+                                        planId={program.id}
+                                        onComplete={(id) => setLeadId(id)}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
