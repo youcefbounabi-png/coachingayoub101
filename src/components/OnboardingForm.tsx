@@ -57,6 +57,12 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
         setLoading(true);
         setError('');
 
+        if (!supabase) {
+            setError('System configuration error: Supabase credentials are missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your Vercel Environment Variables.');
+            setLoading(false);
+            return;
+        }
+
         try {
             // 1. Upload photos
             const photoPaths: string[] = [];
