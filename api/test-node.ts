@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { TEST_STRING } from './_lib/test-lib.js';
+import { Resend } from 'resend';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({
         nodeVersion: process.version,
-        importStatus: TEST_STRING,
+        resendAvailable: typeof Resend !== 'undefined',
         fetchAvailable: typeof fetch !== 'undefined',
         env: {
             HAS_CHARGILY: !!process.env.CHARGILY_API_KEY,
