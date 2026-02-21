@@ -32,7 +32,11 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
                     const data = JSON.parse(text);
                     if (data.error) errorMsg = data.error;
                 } catch {
-                    if (text.includes('<!DOCTYPE html>')) errorMsg = `Server Error (${res.status}): API not found or crashed.`;
+                    if (text.includes('<!DOCTYPE html>')) {
+                        errorMsg = `Server Error (${res.status}). Vercel might be missing keys or crashing. Check logs.`;
+                    } else if (text) {
+                        errorMsg = `Error (${res.status}): ${text.substring(0, 100)}...`;
+                    }
                 }
                 throw new Error(errorMsg);
             }
@@ -70,7 +74,11 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
                     const data = JSON.parse(text);
                     if (data.error) errorMsg = data.error;
                 } catch {
-                    if (text.includes('<!DOCTYPE html>')) errorMsg = `Server Error (${res.status}): API not found or crashed.`;
+                    if (text.includes('<!DOCTYPE html>')) {
+                        errorMsg = `Server Error (${res.status}). Vercel might be missing keys or crashing. Check logs.`;
+                    } else if (text) {
+                        errorMsg = `Error (${res.status}): ${text.substring(0, 100)}...`;
+                    }
                 }
                 throw new Error(errorMsg);
             }
