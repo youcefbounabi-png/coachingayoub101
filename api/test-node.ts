@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { TEST_STRING } from './_lib/test-lib';
+import { TEST_STRING } from './_lib/test-lib.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({
