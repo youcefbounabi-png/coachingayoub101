@@ -28,6 +28,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
+    if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
+        return res.status(500).json({ error: 'PayPal configuration error: PAYPAL_CLIENT_ID or PAYPAL_CLIENT_SECRET is missing from server environment variables.' });
+    }
+
     const { planId, leadId } = req.body as { planId?: string, leadId?: string };
     const plan = planId ? PLANS[planId] : null;
 

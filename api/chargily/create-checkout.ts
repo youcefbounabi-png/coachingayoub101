@@ -7,6 +7,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
+    if (!process.env.CHARGILY_API_KEY) {
+        return res.status(500).json({ error: 'Chargily configuration error: CHARGILY_API_KEY is missing from server environment variables.' });
+    }
+
     const { planId, leadId } = req.body as { planId?: string, leadId?: string };
     const plan = planId ? PLANS[planId] : null;
 

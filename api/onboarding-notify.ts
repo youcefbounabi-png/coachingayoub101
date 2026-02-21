@@ -10,6 +10,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
+        if (!process.env.RESEND_API_KEY) {
+            console.error('RESEND_API_KEY is missing. Skipping notification email.');
+            return res.status(200).json({ success: true, warning: 'Notification email skipped (missing config)' });
+        }
+
         const { lead } = req.body;
 
         if (!lead) {
