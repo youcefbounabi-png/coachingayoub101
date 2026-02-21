@@ -57,8 +57,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
         setLoading(true);
         setError('');
 
-        if (!supabase) {
-            setError('System configuration error: Supabase credentials are missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your Vercel Environment Variables.');
+        if (!supabase || !supabase.storage) {
+            setError('System configuration error: Supabase client is not initialized or missing storage capability. Please check your Vercel Environment Variables.');
             setLoading(false);
             return;
         }
@@ -112,7 +112,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
             <div className="border-b-4 border-accent pb-4 flex justify-between items-end">
                 <div>
                     <span className="text-xs font-black tracking-[0.4em] text-gray-500 uppercase block mb-1">Onboarding</span>
-                    <h2 className="text-3xl font-black font-heading tracking-tighter uppercase italic">Athlete Protocol</h2>
+                    <h2 className="text-3xl font-black font-heading tracking-tighter uppercase italic">Athlete Protocol (v1.1)</h2>
                 </div>
                 <div className="flex gap-2">
                     {[1, 2, 3].map(i => (
@@ -123,7 +123,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
 
             {error && (
                 <div className="p-4 bg-red-600 border-4 border-white text-white font-black text-xs tracking-widest uppercase">
-                    Error: {error}
+                    {error}
                 </div>
             )}
 
