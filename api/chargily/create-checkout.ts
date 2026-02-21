@@ -1,6 +1,6 @@
 // api/chargily/create-checkout.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PLANS } from '../_lib/plans';
+import { PLANS } from '../_lib/plans.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {

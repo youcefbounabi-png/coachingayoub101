@@ -1,6 +1,6 @@
 // api/paypal/create-order.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PLANS } from '../_lib/plans';
+import { PLANS } from '../_lib/plans.js';
 
 async function getPayPalAccessToken(): Promise<string> {
     const clientId = process.env.PAYPAL_CLIENT_ID!;

@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
-import { PLANS } from './_lib/plans';
+import { PLANS } from './_lib/plans.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
