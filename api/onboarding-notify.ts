@@ -51,7 +51,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     <p style="margin-top: 20px;">
                         <strong>Physique Photos:</strong><br/>
                         ${lead.physique_photos?.map((p: string) => {
-                const url = `${process.env.SUPABASE_URL}/storage/v1/object/public/physique-photos/${p}`;
+                const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+                const url = `${supabaseUrl}/storage/v1/object/public/physique-photos/${p}`;
                 return `• <a href="${url}" target="_blank" style="color: #F7E025;">View Photo</a>`;
             }).join('<br/>')}
                     </p>
