@@ -50,19 +50,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 Authorization: `Bearer ${process.env.CHARGILY_API_KEY}`,
             },
             body: JSON.stringify(payload),
+        }).catch(e => {
+            throw new Error(`Chargily fetch failed: ${e.message}`);
         });
 
-        const checkout = await chargilyRes.json() as { checkout_url?: string; errors?: unknown };
+        const text = await chargilyRes.text();
+        let checkout: any;
+        try {
+            checkout = JSON.parse(text);
+        } catch {
+            throw new Error(`Chargily returned non-JSON: ${text.substring(0, 50)}`);
+        }
 
         if (!chargilyRes.ok || !checkout.checkout_url) {
             console.error('Chargily error:', checkout);
-            return res.status(500).json({ error: 'Failed to create Chargily checkout' });
+            const msg = checkout.message || (checkout.errors ? JSON.stringify(checkout.errors) : 'Unknown Chargily error');
+            return res.status(500).json({ error: `Chargily Error: ${msg}` });
         }
 
         return res.status(200).json({ checkoutUrl: checkout.checkout_url });
     } catch (err) {
         const error = err as Error;
         console.error('Chargily create-checkout error:', error.message);
-        return res.status(500).json({ error: 'Failed to create Chargily checkout' });
+        return res.status(500).json({ error: `Server Crash: ${error.message}` });
     }
 }

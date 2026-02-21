@@ -71,19 +71,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     cancel_url: `${req.headers.origin || 'https://ayoubcmb.com'}/cancel`,
                 },
             }),
+        }).catch(e => {
+            throw new Error(`PayPal API fetch failed: ${e.message}`);
         });
 
-        if (!orderRes.ok) {
-            const errorData = await orderRes.json() as { message?: string };
-            throw new Error(errorData.message || 'Failed to create PayPal order');
+        const text = await orderRes.text();
+        let order: any;
+        try {
+            order = JSON.parse(text);
+        } catch {
+            throw new Error(`PayPal returned non-JSON: ${text.substring(0, 50)}`);
         }
 
-        const order = await orderRes.json() as { id: string; links?: Array<{ rel: string; href: string }> };
+        if (!orderRes.ok) {
+            console.error('PayPal error response:', order);
+            const msg = order.message || order.error_description || JSON.stringify(order);
+            return res.status(500).json({ error: `PayPal Error: ${msg}` });
+        }
 
         // Find the approval URL from the order links
-        const approveLink = order.links?.find(link => link.rel === 'approve');
+        const approveLink = order.links?.find((link: any) => link.rel === 'approve');
         if (!approveLink) {
-            throw new Error('No approval URL found in PayPal order');
+            throw new Error('No approval URL found in PayPal response');
         }
 
         return res.status(200).json({
@@ -93,6 +102,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } catch (err) {
         const error = err as Error;
         console.error('PayPal create-order error:', error.message);
-        return res.status(500).json({ error: 'Failed to create PayPal order' });
+        return res.status(500).json({ error: `Server Crash: ${error.message}` });
     }
 }
