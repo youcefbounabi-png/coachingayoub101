@@ -12,10 +12,10 @@ const Results: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Client Results | Ayoub CMB Elite Coaching</title>
-                <meta name="description" content="Real transformations from real athletes. 15+ IFBB Pro Cards, Olympia qualifiers, national champions — see what the CMB system delivers." />
-                <meta property="og:title" content="Client Results | Ayoub CMB" />
-                <meta property="og:description" content="Consistent. Measurable. Elite. These are the athletes who followed the system." />
+                <title>{t('seo.resultsTitle')}</title>
+                <meta name="description" content={t('seo.resultsDesc')} />
+                <meta property="og:title" content={t('seo.resultsTitle')} />
+                <meta property="og:description" content={t('seo.resultsDesc')} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://ayoubcmb.com/results" />
                 <link rel="canonical" href="https://ayoubcmb.com/results" />
@@ -27,7 +27,7 @@ const Results: React.FC = () => {
                 <div className="absolute bottom-80 left-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '1.5s' }}></div>
                 <section className="relative z-10 max-w-7xl mx-auto px-6">
                     <div className="mb-12 md:mb-20 animate-liquid-fade">
-                        <h1 className="text-5xl md:text-9xl font-black font-heading tracking-tighter mb-4 uppercase">
+                        <h1 className="text-3xl sm:text-5xl md:text-9xl font-black font-heading tracking-tighter mb-4 uppercase">
                             {t('results.title')} <span className="text-outline">{t('results.titleAccent')}</span>
                         </h1>
                         <p className="text-base md:text-xl font-bold tracking-widest text-gray-400 max-w-xl">
@@ -41,22 +41,22 @@ const Results: React.FC = () => {
                                 <div className="w-full md:w-1/2 overflow-hidden">
                                     <img
                                         src={c.image}
-                                        alt={c.description}
+                                        alt={t(c.descriptionKey)}
                                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                                         loading="lazy"
                                     />
                                 </div>
                                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-                                    <span className="text-accent font-black tracking-widest text-[10px] mb-2 uppercase">{c.category}</span>
-                                    <h3 className="text-3xl font-black font-heading mb-4 uppercase">{c.name}</h3>
+                                    <span className="text-accent font-black tracking-widest text-[10px] mb-2 uppercase">{t(c.categoryKey)}</span>
+                                    <h3 className="text-3xl font-black font-heading mb-4 uppercase">{t(c.nameKey)}</h3>
                                     <div className="space-y-4">
                                         <div className="flex justify-between border-b border-border pb-2">
                                             <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">{t('results.result')}</span>
-                                            <span className="text-xs font-black text-white uppercase">{c.change}</span>
+                                            <span className="text-xs font-black text-white uppercase">{t(c.changeKey)}</span>
                                         </div>
                                         <div className="flex justify-between border-b border-border pb-2">
                                             <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">{t('results.time')}</span>
-                                            <span className="text-xs font-black text-white uppercase">{c.duration}</span>
+                                            <span className="text-xs font-black text-white uppercase">{t(c.durationKey)}</span>
                                         </div>
                                     </div>
                                     <NavLink to={`/results/${c.id}`} className="mt-8 text-xs font-black tracking-widest border-2 border-white py-3 px-6 hover:bg-accent hover:border-accent hover:text-dark transition-all inline-block text-center">

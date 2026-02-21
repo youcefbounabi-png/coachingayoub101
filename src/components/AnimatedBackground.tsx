@@ -7,19 +7,6 @@ const AnimatedBackground: React.FC = () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        // Initialize particles
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 3 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                opacity: Math.random() * 0.5 + 0.2,
-                color: colors[Math.floor(Math.random() * colors.length)],
-            });
-        }
-
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
@@ -50,7 +37,7 @@ const AnimatedBackground: React.FC = () => {
             // Reinitialize particles on resize
             initParticles();
         };
-        
+
         const initParticles = () => {
             particles.length = 0;
             for (let i = 0; i < particleCount; i++) {
@@ -65,7 +52,7 @@ const AnimatedBackground: React.FC = () => {
                 });
             }
         };
-        
+
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
@@ -73,7 +60,7 @@ const AnimatedBackground: React.FC = () => {
 
         const animate = () => {
             if (!ctx || !canvas) return;
-            
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach((particle, i) => {
@@ -88,7 +75,7 @@ const AnimatedBackground: React.FC = () => {
                 // Draw particle
                 ctx.beginPath();
                 ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-                const colorOpacity = particle.color.includes('0.3') 
+                const colorOpacity = particle.color.includes('0.3')
                     ? particle.color.replace('0.3', particle.opacity.toString())
                     : particle.color.replace(/0\.\d+/, particle.opacity.toString());
                 ctx.fillStyle = colorOpacity;

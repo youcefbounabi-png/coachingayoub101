@@ -7,13 +7,14 @@ import AchievementsSection from './Achievements';
 
 const Home: React.FC = () => {
     const { t } = useTranslation();
+
     return (
         <>
             <Helmet>
-                <title>Ayoub CMB | Elite Bodybuilding Coach & Nutritionist</title>
-                <meta name="description" content="Ayoub CMB — elite bodybuilding coach and nutritionist. Custom training, nutrition, and contest prep for serious athletes. Real results, real science." />
-                <meta property="og:title" content="Ayoub CMB | Elite Bodybuilding Coach" />
-                <meta property="og:description" content="Custom coaching for serious athletes. No templates — just the plan your body needs." />
+                <title>{t('seo.homeTitle')}</title>
+                <meta name="description" content={t('seo.homeDesc')} />
+                <meta property="og:title" content={t('seo.homeTitle')} />
+                <meta property="og:description" content={t('seo.homeDesc')} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://ayoubcmb.com/" />
                 <link rel="canonical" href="https://ayoubcmb.com/" />
@@ -59,7 +60,7 @@ const Home: React.FC = () => {
                         <img
                             src="/homepage_hero.png"
                             alt="Elite bodybuilding athletes — Ayoub CMB coaching team"
-                            className="w-full h-full object-cover opacity-50 animate-ken-burns brightness-110 saturate-110"
+                            className="w-full h-full object-cover brightness-110 saturate-110"
                             loading="eager"
                             fetchPriority="high"
                         />
@@ -69,24 +70,24 @@ const Home: React.FC = () => {
                         <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent"></div>
                     </div>
 
-                    <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-20">
-                        <div className="max-w-5xl">
-                            <span className="inline-block px-3 py-1 bg-accent text-dark font-black text-xs tracking-[0.3em] mb-6 animate-liquid-fade delay-100">
+                    <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-56 sm:pt-64 md:pt-72 pb-20">
+                        <div className="max-w-4xl">
+                            <span className="inline-block px-3 py-1 bg-accent text-dark font-black text-[10px] tracking-[0.3em] mb-4">
                                 {t('home.badge')}
                             </span>
-                            <h1 className="text-5xl sm:text-7xl md:text-[120px] font-black font-heading leading-[0.9] tracking-tighter mb-8 animate-liquid-fade delay-200">
+                            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-heading leading-[0.9] tracking-tighter mb-4 sm:mb-6">
                                 {t('home.title')} <br />
                                 <span className="text-accent font-cormorant italic font-bold">{t('home.titleAccent')}</span> <br />
                                 {t('home.titleEnd')}
                             </h1>
-                            <p className="text-lg md:text-3xl text-gray-200 font-bold max-w-2xl mb-12 border-l-4 md:border-l-8 border-accent pl-6 md:pl-8 py-2 uppercase leading-tight animate-liquid-fade delay-300">
+                            <p className="text-[10px] sm:text-base md:text-lg text-gray-200 font-bold max-w-xl mb-8 sm:mb-10 border-l-2 sm:border-l-8 border-accent pl-4 md:pl-8 py-1 sm:py-2 uppercase leading-tight">
                                 {t('home.tagline')}
                             </p>
-                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 animate-liquid-fade delay-500">
-                                <NavLink to="/programs" className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-6 bg-accent text-dark font-black tracking-widest text-base md:text-lg hover:bg-white transition-all transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(247,224,37,0.5)] hover:scale-105 text-center interactive-glow rounded-lg">
+                            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                                <NavLink to="/programs" className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-6 bg-accent text-dark font-black tracking-widest text-base md:text-lg hover:bg-white transition-all transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(247,224,37,0.5)] hover:scale-105 text-center interactive-glow rounded-lg active:scale-95">
                                     {t('home.startNow')}
                                 </NavLink>
-                                <NavLink to="/results" className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-6 brutalist-border text-white font-black tracking-widest text-base md:text-lg hover:border-accent hover:bg-accent/10 transition-all transform hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(247,224,37,0.3)] text-center">
+                                <NavLink to="/results" className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-6 brutalist-border text-white font-black tracking-widest text-base md:text-lg hover:border-accent hover:bg-accent/10 transition-all transform hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(247,224,37,0.3)] text-center active:scale-95">
                                     {t('home.seeResults')}
                                 </NavLink>
                             </div>
@@ -114,7 +115,7 @@ const Home: React.FC = () => {
                 <section className="py-20 md:py-32 bg-gradient-to-b from-dark via-surface to-dark overflow-hidden relative">
                     {/* Light gradient overlay for brightness */}
                     <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-accent/5 pointer-events-none"></div>
-                    
+
                     <div className="max-w-7xl mx-auto px-6 relative z-10">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
                             <div className="relative group order-2 lg:order-1">
@@ -134,10 +135,10 @@ const Home: React.FC = () => {
                                 <span className="inline-block px-4 py-2 bg-accent/20 border border-accent/30 text-accent font-black tracking-[0.4em] text-xs md:text-sm uppercase rounded">
                                     {t('home.clientJourney')}
                                 </span>
-                                <h2 className="text-4xl md:text-7xl font-black font-heading tracking-tighter uppercase leading-[0.9] bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent">
+                                <h2 className="text-2xl sm:text-4xl md:text-7xl font-black font-heading tracking-tighter uppercase leading-[0.9] bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent">
                                     {t('home.journeyTitle')} <br /><span className="text-accent font-cormorant italic font-bold not-italic">{t('home.journeyTitleAccent')}</span>
                                 </h2>
-                                <p className="text-base md:text-xl text-gray-200 font-bold leading-relaxed">
+                                <p className="text-sm sm:text-base md:text-xl text-gray-200 font-bold leading-relaxed">
                                     "{t('home.journeyQuote')}"
                                 </p>
                                 <div className="flex flex-wrap gap-8 md:gap-12">
@@ -165,32 +166,27 @@ const Home: React.FC = () => {
                     {/* Floating accent orbs */}
                     <div className="absolute top-20 left-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl animate-pulse"></div>
                     <div className="absolute bottom-20 right-20 w-40 h-40 bg-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
-                    
+
                     <div className="max-w-7xl mx-auto px-6 relative z-10">
-                        <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-20 gap-8">
-                            <h2 className="text-5xl md:text-8xl font-black font-heading tracking-tighter uppercase leading-none">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-20 gap-4 sm:gap-8">
+                            <h2 className="text-3xl sm:text-5xl md:text-8xl font-black font-heading tracking-tighter uppercase leading-none">
                                 {t('home.whyCmb')} <br /><span className="text-accent">CMB?</span>
                             </h2>
-                            <p className="text-gray-300 font-bold text-sm md:text-lg max-w-md uppercase tracking-wide">
+                            <p className="text-gray-300 font-bold text-xs sm:text-sm md:text-lg max-w-md uppercase tracking-wide">
                                 {t('home.whyCmbSub')}
                             </p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                            <div className="p-8 md:p-12 brutalist-border bg-gradient-to-br from-surface to-surface/80 group hover:from-accent hover:to-accent/80 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(247,224,37,0.4)]">
-                                <h3 className="text-5xl md:text-7xl font-black text-accent/50 group-hover:text-dark mb-6 md:mb-8 transition-colors">01</h3>
-                                <h4 className="text-xl md:text-2xl font-black mb-4 group-hover:text-dark">{t('home.bestPlan')}</h4>
-                                <p className="text-sm md:text-base text-gray-300 font-bold group-hover:text-dark/90 uppercase">{t('home.bestPlanDesc')}</p>
-                            </div>
-                            <div className="p-8 md:p-12 brutalist-border bg-gradient-to-br from-surface to-surface/80 group hover:from-accent hover:to-accent/80 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(247,224,37,0.4)]">
-                                <h3 className="text-5xl md:text-7xl font-black text-accent/50 group-hover:text-dark mb-6 md:mb-8 transition-colors">02</h3>
-                                <h4 className="text-xl md:text-2xl font-black mb-4 group-hover:text-dark">{t('home.support24')}</h4>
-                                <p className="text-sm md:text-base text-gray-300 font-bold group-hover:text-dark/90 uppercase">{t('home.support24Desc')}</p>
-                            </div>
-                            <div className="p-8 md:p-12 brutalist-border bg-gradient-to-br from-surface to-surface/80 group hover:from-accent hover:to-accent/80 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(247,224,37,0.4)]">
-                                <h3 className="text-5xl md:text-7xl font-black text-accent/50 group-hover:text-dark mb-6 md:mb-8 transition-colors">03</h3>
-                                <h4 className="text-xl md:text-2xl font-black mb-4 group-hover:text-dark">{t('home.realScience')}</h4>
-                                <p className="text-sm md:text-base text-gray-300 font-bold group-hover:text-dark/90 uppercase">{t('home.realScienceDesc')}</p>
-                            </div>
+                            {[1, 2, 3].map((item, idx) => (
+                                <div
+                                    key={item}
+                                    className="p-6 sm:p-8 md:p-12 brutalist-border bg-gradient-to-br from-surface to-surface/80 group hover:from-accent hover:to-accent/80 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(247,224,37,0.4)]"
+                                >
+                                    <h3 className="text-4xl sm:text-5xl md:text-7xl font-black text-accent/50 group-hover:text-dark mb-4 sm:mb-6 md:mb-8 transition-colors">0{item}</h3>
+                                    <h4 className="text-lg sm:text-xl md:text-2xl font-black mb-2 sm:mb-4 group-hover:text-dark">{t(`home.${item === 1 ? 'bestPlan' : item === 2 ? 'support24' : 'realScience'}`)}</h4>
+                                    <p className="text-xs sm:text-sm md:text-base text-gray-300 font-bold group-hover:text-dark/90 uppercase">{t(`home.${item === 1 ? 'bestPlan' : item === 2 ? 'support24' : 'realScience'}Desc`)}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -222,18 +218,20 @@ const Home: React.FC = () => {
                         <div className="absolute top-1/2 right-1/5 w-24 h-24 rounded-full border-2 border-dark/25 animate-float" style={{ animationDuration: '10s', animationDelay: '-2s' }} />
                     </div>
                     <div className="absolute top-0 left-0 w-full h-full opacity-[0.12] pointer-events-none flex items-center justify-center overflow-hidden">
-                        <span className="text-[120px] md:text-[260px] font-black leading-none select-none text-dark/30 whitespace-nowrap">CMB CMB CMB CMB</span>
+                        <span className="text-[80px] sm:text-[120px] md:text-[260px] font-black leading-none select-none text-dark/30 whitespace-nowrap">CMB CMB CMB CMB</span>
                     </div>
                     <div className="relative z-10 max-w-4xl mx-auto px-6">
-                        <h2 className="text-5xl md:text-9xl font-black font-heading tracking-tighter mb-8 md:mb-12 leading-none uppercase drop-shadow-lg">
-                            {t('home.stopWaiting')} <br />{t('home.stopWaitingEnd')}
-                        </h2>
-                        <p className="text-lg md:text-2xl font-black mb-8 md:mb-12 uppercase tracking-wide text-dark/90">
-                            {t('home.ctaText')}
-                        </p>
-                        <NavLink to="/contact" className="inline-block px-10 md:px-16 py-6 md:py-8 bg-surface text-white font-black tracking-[0.3em] text-lg md:text-2xl hover:scale-110 hover:shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all transform rounded-lg border-2 border-white/20 hover:border-white">
-                            {t('home.applyToTeam')}
-                        </NavLink>
+                        <div>
+                            <h2 className="text-3xl sm:text-5xl md:text-9xl font-black font-heading tracking-tighter mb-4 sm:mb-8 md:mb-12 leading-none uppercase drop-shadow-lg">
+                                {t('home.stopWaiting')} <br />{t('home.stopWaitingEnd')}
+                            </h2>
+                            <p className="text-base sm:text-lg md:text-2xl font-black mb-8 md:mb-12 uppercase tracking-wide text-dark/90 text-center">
+                                {t('home.ctaText')}
+                            </p>
+                            <NavLink to="/contact" className="inline-block px-8 sm:px-10 md:px-16 py-4 sm:py-6 md:py-8 bg-surface text-white font-black tracking-[0.3em] text-base sm:text-lg md:text-2xl hover:scale-110 hover:shadow-[0_10px_40px_rgba(0,0,0,0.3)] transition-all transform rounded-lg border-2 border-white/20 hover:border-white">
+                                {t('home.applyToTeam')}
+                            </NavLink>
+                        </div>
                     </div>
                 </section>
             </div>

@@ -1,12 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Success: React.FC = () => {
+    const { t } = useTranslation();
     return (
         <>
             <Helmet>
-                <title>Payment Successful | Ayoub CMB</title>
+                <title>{t('seo.successTitle')}</title>
                 <meta name="robots" content="noindex" />
             </Helmet>
             <div className="pt-32 pb-20 min-h-screen flex items-center justify-center bg-gradient-to-b from-dark via-surface/50 to-dark relative overflow-hidden">
@@ -15,16 +17,16 @@ const Success: React.FC = () => {
                 <section className="max-w-4xl mx-auto px-6 text-center">
                     <div className="animate-liquid-fade">
                         <h1 className="text-5xl md:text-8xl font-black font-heading tracking-tighter mb-8 text-accent">
-                            PAYMENT SUCCESSFUL
+                            {t('success.title')}
                         </h1>
                         <p className="text-xl font-bold tracking-widest text-gray-300 mb-12 uppercase">
-                            Start your journey. Check your email for next steps.
+                            {t('success.subtitle')}
                         </p>
                         <NavLink
                             to="/"
                             className="inline-block px-8 py-4 bg-white text-dark font-black tracking-widest text-lg hover:bg-accent transition-colors uppercase"
                         >
-                            Back to Home
+                            {t('success.backToHome')}
                         </NavLink>
                     </div>
                 </section>

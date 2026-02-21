@@ -64,7 +64,25 @@
         "olympiaDesc": "Prepared athletes for the world's biggest bodybuilding stage.",
         "national": "NATIONAL CHAMPION",
         "nationalCat": "Personal Result",
-        "nationalDesc": "Overall champion with 12 years of competitive experience."
+        "nationalDesc": "Overall champion with 12 years of competitive experience.",
+        "gallery": {
+            "title1": "GOLDEN BODY CHAMPION",
+            "sub1": "MEN'S PHYSIQUE",
+            "title2": "PRO CARD WINNER",
+            "sub2": "ELITE STATUS",
+            "title3": "TOTAL TRANSFORMATION",
+            "sub3": "FAT LOSS & MUSCLE GAIN",
+            "title4": "STAGE READY",
+            "sub4": "CONTEST PREP",
+            "title5": "DOUBLE TROUBLE",
+            "sub5": "WINNING TEAM",
+            "title6": "ELITE PHYSIQUE",
+            "sub6": "GYM READY",
+            "title7": "GOLDENBODY SHOW",
+            "sub7": "EVENT FEATURE",
+            "title8": "CHAMPION DUO",
+            "sub8": "STAGE READY"
+        }
     },
     "testimonials": {
         "title": "WHAT THEY",
@@ -128,6 +146,9 @@
     },
     "resultDetail": {
         "backToResults": "BACK TO RESULTS",
+        "transformation": "TRANSFORMATION",
+        "total": "TOTAL",
+        "rebuild": "REBUILD.",
         "before": "BEFORE",
         "after": "AFTER",
         "strategy": "THE STRATEGY",
@@ -144,7 +165,29 @@
         "16weeks": "16 WEEKS",
         "weightChange": "-12.5 KG",
         "fatChange": "18% → 6%",
-        "contestPrep": "CONTEST PREP"
+        "contestPrep": "CONTEST PREP",
+        "cases": {
+            "m_name": "Marcus T.",
+            "m_change": "+12kg Lean Mass",
+            "m_duration": "16 Weeks",
+            "m_category": "Classic Physique",
+            "m_desc": "Personal transformation — at-home progress, lean mass gain",
+            "d_name": "David L.",
+            "d_change": "Overall Champion",
+            "d_duration": "Contest Prep",
+            "d_category": "Men's Physique",
+            "d_desc": "Competition stage — IFBB event, bib 288",
+            "a_name": "Alex K.",
+            "a_change": "-8% Body Fat",
+            "a_duration": "12 Weeks",
+            "a_category": "Men's Physique",
+            "a_desc": "Gym progress — full-body transformation",
+            "j_name": "James R.",
+            "j_change": "Pro Card Winner",
+            "j_duration": "24 Month Journey",
+            "j_category": "Bodybuilding",
+            "j_desc": "Elite training — stage-ready conditioning"
+        }
     },
     "contact": {
         "title": "JOIN THE",
@@ -182,6 +225,59 @@
         "copyright": "© 2024 AYOUB CMB PERFORMANCE. ALL RIGHTS RESERVED."
     },
     "common": {
-        "loading": "Loading"
+        "loading": "Loading",
+        "back": "BACK",
+        "pricingTerms": "PRICING & TERMS",
+        "planPhilosophy": "PLAN PHILOSOPHY",
+        "includedIn": "INCLUDED IN",
+        "coachingTier": "COACHING TIER",
+        "philosophyText1": "The {{name}} tier is engineered for individuals who are beyond the \"hobbyist\" stage. Whether it's your first time stepping onto a regional stage or you're aiming for national qualification, this protocol manages your metabolic rate, hormonal health, and mechanical tension at a professional level.",
+        "philosophyText2": "We don't just \"give a diet.\" We provide a full physiological management system. Expect to log everything: from morning weight and resting heart rate to weekly blood glucose readings if necessary."
+    },
+    "onboarding": {
+        "title": "Onboarding",
+        "subtitle": "Athlete Protocol (v1.2)",
+        "step1": "General Information",
+        "step2": "Physical Stats",
+        "step3": "Current Physique",
+        "fullName": "Full Name *",
+        "email": "Email Address *",
+        "phone": "Phone / WhatsApp",
+        "height": "Height (cm)",
+        "weight": "Weight (kg)",
+        "healthProblems": "Health Problems / Injuries",
+        "physiqueLabel": "Current Physique (3 Photos Required: Front, Side, Back)",
+        "clickToUpload": "Click to Upload Photos",
+        "placeholderNone": "None",
+        "errContact": "Please fill in required contact info",
+        "errConfig": "System configuration error: Supabase client is not initialized or missing storage capability.",
+        "errSubmit": "Submission failed: {{message}}. Please check if photos are too large or connection is unstable.",
+        "submitting": "Submitting Protocol...",
+        "completeToPayment": "Complete & Go to Payment",
+        "continue": "Continue"
+    },
+    "seo": {
+        "homeTitle": "Ayoub CMB | Elite Bodybuilding Coach & Nutritionist",
+        "homeDesc": "Ayoub CMB — elite bodybuilding coach and nutritionist. Custom training, nutrition, and contest prep for serious athletes. Real results, real science.",
+        "aboutTitle": "About Ayoub CMB | Elite Bodybuilding Coach",
+        "aboutDesc": "Meet Ayoub CMB — 12+ years of competitive bodybuilding, 15+ IFBB Pro Cards guided, Olympia-qualified athlete preparation. Science-first coaching philosophy.",
+        "programsTitle": "Coaching Programs | Ayoub CMB Elite Bodybuilding",
+        "programsDesc": "Choose your coaching tier: Basic ($149/mo), Elite Pro ($299/mo), or Contest Prep ($599/mo). Custom training, nutrition, and 24/7 support from Ayoub CMB.",
+        "resultsTitle": "Elite Bodybuilding Results | Ayoub CMB Team",
+        "resultsDesc": "Before/After transformations of our athletes. From pro card winners to local champions — see the science in action.",
+        "successTitle": "Payment Successful | Ayoub CMB",
+        "cancelTitle": "Payment Cancelled | Ayoub CMB",
+        "contactTitle": "Apply Now | Ayoub CMB Elite Coaching",
+        "contactDesc": "Apply to join Ayoub CMB's elite coaching team. Only 5 new athletes accepted per month. Fill out the form to start your transformation journey."
+    },
+    "success": {
+        "title": "PAYMENT SUCCESSFUL",
+        "subtitle": "Start your journey. Check your email for next steps.",
+        "backToHome": "Back to Home"
+    },
+    "cancel": {
+        "title": "PAYMENT CANCELLED",
+        "subtitle": "No worries. We're here when you're ready to commit.",
+        "returnToPrograms": "Return to Programs"
     }
 }

@@ -44,10 +44,10 @@ const Contact: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Apply Now | Ayoub CMB Elite Coaching</title>
-                <meta name="description" content="Apply to join Ayoub CMB's elite coaching team. Only 5 new athletes accepted per month. Fill out the form to start your transformation journey." />
-                <meta property="og:title" content="Apply Now | Ayoub CMB Elite Coaching" />
-                <meta property="og:description" content="Only 5 new athletes per month. Apply to the CMB coaching team today." />
+                <title>{t('seo.contactTitle')}</title>
+                <meta name="description" content={t('seo.contactDesc')} />
+                <meta property="og:title" content={t('seo.contactTitle')} />
+                <meta property="og:description" content={t('seo.contactDesc')} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://ayoubcmb.com/contact" />
                 <link rel="canonical" href="https://ayoubcmb.com/contact" />

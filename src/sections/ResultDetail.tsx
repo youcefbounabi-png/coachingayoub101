@@ -18,8 +18,8 @@ const ResultDetail: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Transformation #{id} | Ayoub CMB Results</title>
-                <meta name="description" content={`Client transformation case study #${id} — detailed breakdown of training, nutrition and results achieved with Ayoub CMB coaching.`} />
+                <title>{t('resultDetail.transformation')} #{id} | Ayoub CMB Results</title>
+                <meta name="description" content={`${t('resultDetail.transformation')} #${id} — detailed breakdown of training, nutrition and results achieved with Ayoub CMB coaching.`} />
                 <link rel="canonical" href={`https://ayoubcmb.com/results/${id}`} />
             </Helmet>
 
@@ -40,7 +40,7 @@ const ResultDetail: React.FC = () => {
                                             ? (result?.beforeImage ?? `https://picsum.photos/seed/result_${id}_before/600/800`)
                                             : (result?.image ?? `https://picsum.photos/seed/result_${id}_after/600/800`)
                                     }
-                                    alt={showBefore ? `${result?.name} — before transformation` : (result?.description ?? `Transformation result #${id}`)}
+                                    alt={showBefore ? `${result?.nameKey ? t(result.nameKey) : ''} — before transformation` : (result?.descriptionKey ? t(result.descriptionKey) : `Transformation result #${id}`)}
                                     className="w-full grayscale hover:grayscale-0 transition-all duration-700 object-cover min-h-[300px]"
                                     loading="lazy"
                                 />
@@ -48,18 +48,16 @@ const ResultDetail: React.FC = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowBefore(true)}
-                                        className={`flex-1 text-xs font-black px-2 py-3 transition-all cursor-pointer border-2 ${
-                                            showBefore ? 'bg-accent text-dark border-accent' : 'bg-surface text-white border-border hover:border-accent/50'
-                                        }`}
+                                        className={`flex-1 text-xs font-black px-2 py-3 transition-all cursor-pointer border-2 ${showBefore ? 'bg-accent text-dark border-accent' : 'bg-surface text-white border-border hover:border-accent/50'
+                                            }`}
                                     >
                                         {t('resultDetail.before')}
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setShowBefore(false)}
-                                        className={`flex-1 text-xs font-black px-2 py-3 transition-all cursor-pointer border-2 ${
-                                            !showBefore ? 'bg-accent text-dark border-accent' : 'bg-surface text-white border-border hover:border-accent/50'
-                                        }`}
+                                        className={`flex-1 text-xs font-black px-2 py-3 transition-all cursor-pointer border-2 ${!showBefore ? 'bg-accent text-dark border-accent' : 'bg-surface text-white border-border hover:border-accent/50'
+                                            }`}
                                     >
                                         {t('resultDetail.after')}
                                     </button>
@@ -69,19 +67,19 @@ const ResultDetail: React.FC = () => {
 
                         <div className="space-y-12">
                             <div>
-                                <span className="text-accent font-black tracking-widest text-sm mb-2 block">TRANSFORMATION #{id}</span>
-                                <h1 className="text-6xl md:text-8xl font-black font-heading tracking-tighter uppercase leading-none mb-6">
-                                    TOTAL <br /><span className="text-outline">REBUILD.</span>
+                                <span className="text-accent font-black tracking-widest text-sm mb-2 block">{t('resultDetail.transformation')} #{id}</span>
+                                <h1 className="text-3xl sm:text-6xl md:text-8xl font-black font-heading tracking-tighter uppercase leading-none mb-6">
+                                    {t('resultDetail.total')} <br /><span className="text-outline">{t('resultDetail.rebuild')}</span>
                                 </h1>
 
                                 <div className="grid grid-cols-2 gap-8 mb-12 border-y border-gray-800 py-8">
                                     <div>
                                         <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('resultDetail.duration')}</p>
-                                        <p className="text-2xl font-black">{t('resultDetail.16weeks')}</p>
+                                        <p className="text-2xl font-black">{result?.durationKey ? t(result.durationKey) : t('resultDetail.16weeks')}</p>
                                     </div>
                                     <div>
                                         <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('resultDetail.weight')}</p>
-                                        <p className="text-2xl font-black">{t('resultDetail.weightChange')}</p>
+                                        <p className="text-2xl font-black">{result?.changeKey ? t(result.changeKey) : t('resultDetail.weightChange')}</p>
                                     </div>
                                     <div>
                                         <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('resultDetail.bodyFat')}</p>
@@ -89,7 +87,7 @@ const ResultDetail: React.FC = () => {
                                     </div>
                                     <div>
                                         <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('resultDetail.plan')}</p>
-                                        <p className="text-2xl font-black">{t('resultDetail.contestPrep')}</p>
+                                        <p className="text-2xl font-black">{result?.categoryKey ? t(result.categoryKey) : t('resultDetail.contestPrep')}</p>
                                     </div>
                                 </div>
 

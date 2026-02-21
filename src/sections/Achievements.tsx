@@ -7,50 +7,50 @@ const achievements = [
     {
         id: 1,
         image: '/achievements/achievement_1.webp',
-        title: 'GOLDEN BODY CHAMPION',
-        subtitle: "MEN'S PHYSIQUE"
+        titleKey: 'achievements.gallery.title1',
+        subtitleKey: 'achievements.gallery.sub1'
     },
     {
         id: 2,
         image: '/achievements/achievement_2.webp',
-        title: 'PRO CARD WINNER',
-        subtitle: 'ELITE STATUS'
+        titleKey: 'achievements.gallery.title2',
+        subtitleKey: 'achievements.gallery.sub2'
     },
     {
         id: 3,
         image: '/achievements/achievement_3.webp',
-        title: 'TOTAL TRANSFORMATION',
-        subtitle: 'FAT LOSS & MUSCLE GAIN'
+        titleKey: 'achievements.gallery.title3',
+        subtitleKey: 'achievements.gallery.sub3'
     },
     {
         id: 4,
         image: '/achievements/achievement_4.webp',
-        title: 'STAGE READY',
-        subtitle: 'CONTEST PREP'
+        titleKey: 'achievements.gallery.title4',
+        subtitleKey: 'achievements.gallery.sub4'
     },
     {
         id: 5,
         image: '/achievements/achievement_5.webp',
-        title: 'DOUBLE TROUBLE',
-        subtitle: 'WINNING TEAM'
+        titleKey: 'achievements.gallery.title5',
+        subtitleKey: 'achievements.gallery.sub5'
     },
     {
         id: 6,
         image: '/achievements/achievement_6.png',
-        title: 'ELITE PHYSIQUE',
-        subtitle: 'GYM READY'
+        titleKey: 'achievements.gallery.title6',
+        subtitleKey: 'achievements.gallery.sub6'
     },
     {
         id: 7,
         image: '/achievements/achievement_7.png',
-        title: 'GOLDENBODY SHOW',
-        subtitle: 'EVENT FEATURE'
+        titleKey: 'achievements.gallery.title7',
+        subtitleKey: 'achievements.gallery.sub7'
     },
     {
         id: 8,
         image: '/achievements/achievement_8.png',
-        title: 'CHAMPION DUO',
-        subtitle: 'STAGE READY'
+        titleKey: 'achievements.gallery.title8',
+        subtitleKey: 'achievements.gallery.sub8'
     },
 ];
 
@@ -149,7 +149,7 @@ const AchievementsSection: React.FC = () => {
                     <span className="text-accent font-black tracking-[0.3em] text-xs uppercase mb-2 block">
                         {t('achievements.provenTrackRecord')}
                     </span>
-                    <h2 className="text-4xl md:text-8xl font-black font-heading tracking-tighter uppercase leading-none text-white">
+                    <h2 className="text-3xl sm:text-5xl md:text-8xl font-black font-heading tracking-tighter uppercase leading-none text-white">
                         {t('achievements.hallOfFame')} <span className="text-outline">{t('achievements.hallOfFameAccent')}</span>
                     </h2>
                 </div>
@@ -203,14 +203,14 @@ const AchievementsSection: React.FC = () => {
                                 <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none"></div>
                                 <img
                                     src={item.image}
-                                    alt={item.title}
+                                    alt={t(item.titleKey)}
                                     className="w-full h-full object-cover brutalist-border pointer-events-none"
                                     loading="lazy"
                                     draggable={false}
                                 />
                                 <div className="absolute bottom-0 left-0 w-full p-6 bg-surface/95 border-t-2 border-border transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
-                                    <h3 className="text-xl font-black text-white uppercase italic">{item.title}</h3>
-                                    <p className="text-xs font-bold text-accent tracking-widest uppercase">{item.subtitle}</p>
+                                    <h3 className="text-xl font-black text-white uppercase italic">{t(item.titleKey)}</h3>
+                                    <p className="text-xs font-bold text-accent tracking-widest uppercase">{t(item.subtitleKey)}</p>
                                 </div>
                             </motion.div>
                         ))}
@@ -223,11 +223,10 @@ const AchievementsSection: React.FC = () => {
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
-                                index === currentIndex
-                                    ? 'bg-accent w-8 md:w-12'
-                                    : 'bg-gray-600 hover:bg-gray-400'
-                            }`}
+                            className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${index === currentIndex
+                                ? 'bg-accent w-8 md:w-12'
+                                : 'bg-gray-600 hover:bg-gray-400'
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}

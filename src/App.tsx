@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
-import AnimatedBackground from './components/AnimatedBackground';
 
 // Route-based code splitting with React.lazy
 const Home = lazy(() => import('./sections/Home'));
@@ -36,7 +35,6 @@ const MainLayout: React.FC = () => {
     }, [location.pathname]);
     return (
         <div className="flex flex-col min-h-screen relative">
-            {/* <AnimatedBackground /> */}
             <Navbar />
             <main className="flex-grow relative z-10">
                 <Outlet />

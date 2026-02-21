@@ -15,10 +15,10 @@ const About: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>About Ayoub CMB | Elite Bodybuilding Coach</title>
-                <meta name="description" content="Meet Ayoub CMB — 12+ years of competitive bodybuilding, 15+ IFBB Pro Cards guided, Olympia-qualified athlete preparation. Science-first coaching philosophy." />
-                <meta property="og:title" content="About Ayoub CMB | Elite Bodybuilding Coach" />
-                <meta property="og:description" content="Coach. Athlete. Engineer of Human Performance. 12+ years on the front lines of competitive bodybuilding." />
+                <title>{t('seo.aboutTitle')}</title>
+                <meta name="description" content={t('seo.aboutDesc')} />
+                <meta property="og:title" content={t('seo.aboutTitle')} />
+                <meta property="og:description" content={t('seo.aboutDesc')} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://ayoubcmb.com/about" />
                 <link rel="canonical" href="https://ayoubcmb.com/about" />
@@ -31,7 +31,7 @@ const About: React.FC = () => {
                 <section className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center mb-16 md:mb-32 animate-liquid-fade">
                         <div>
-                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-heading tracking-tighter mb-6 md:mb-10 leading-none">
+                            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black font-heading tracking-tighter mb-6 md:mb-10 leading-none">
                                 AYOUB <br />
                                 <span className="text-accent">CMB.</span>
                             </h1>
@@ -64,12 +64,13 @@ const About: React.FC = () => {
                             {ACHIEVEMENTS.map((ach) => {
                                 const keys = achievementKeys[ach.id as keyof typeof achievementKeys];
                                 return (
-                                <div key={ach.id} className="space-y-4 p-6 rounded-lg bg-gradient-to-br from-surface/80 to-surface/60 border border-border hover:scale-105 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(247,224,37,0.2)] transition-all duration-300">
-                                    <span className="text-accent font-black tracking-widest text-xs uppercase">{ach.year} // {keys ? t(keys.category) : ach.category}</span>
-                                    <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{keys ? t(keys.title) : ach.title}</h3>
-                                    <p className="text-sm font-bold text-gray-300 uppercase tracking-wide leading-snug">{keys ? t(keys.description) : ach.description}</p>
-                                </div>
-                            );})}
+                                    <div key={ach.id} className="space-y-4 p-6 rounded-lg bg-gradient-to-br from-surface/80 to-surface/60 border border-border hover:scale-105 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(247,224,37,0.2)] transition-all duration-300">
+                                        <span className="text-accent font-black tracking-widest text-xs uppercase">{ach.year} // {keys ? t(keys.category) : ach.category}</span>
+                                        <h3 className="text-3xl font-black uppercase tracking-tighter text-white">{keys ? t(keys.title) : ach.title}</h3>
+                                        <p className="text-sm font-bold text-gray-300 uppercase tracking-wide leading-snug">{keys ? t(keys.description) : ach.description}</p>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 

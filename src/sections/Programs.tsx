@@ -23,10 +23,10 @@ const Programs: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Coaching Programs | Ayoub CMB Elite Bodybuilding</title>
-                <meta name="description" content="Choose your coaching tier: Basic ($149/mo), Elite Pro ($299/mo), or Contest Prep ($599/mo). Custom training, nutrition, and 24/7 support from Ayoub CMB." />
-                <meta property="og:title" content="Coaching Programs | Ayoub CMB" />
-                <meta property="og:description" content="Three elite coaching tiers — pick the plan that matches your ambition." />
+                <title>{t('seo.programsTitle')}</title>
+                <meta name="description" content={t('seo.programsDesc')} />
+                <meta property="og:title" content={t('seo.programsTitle')} />
+                <meta property="og:description" content={t('seo.programsDesc')} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://ayoubcmb.com/programs" />
                 <link rel="canonical" href="https://ayoubcmb.com/programs" />
@@ -38,7 +38,7 @@ const Programs: React.FC = () => {
                 <div className="absolute bottom-60 right-20 w-36 h-36 bg-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
                 <section className="max-w-7xl mx-auto px-6">
                     <div className="mb-12 md:mb-20 animate-liquid-fade">
-                        <h1 className="text-5xl md:text-9xl font-black font-heading tracking-tighter mb-4">
+                        <h1 className="text-3xl sm:text-5xl md:text-9xl font-black font-heading tracking-tighter mb-4">
                             {t('programs.title')} <span className="text-accent italic">{t('programs.titleAccent')}</span>
                         </h1>
                         <p className="text-base md:text-xl font-bold tracking-widest text-gray-400 max-w-xl border-l-4 md:border-l-8 border-accent pl-6 uppercase">
@@ -89,7 +89,7 @@ const Programs: React.FC = () => {
                     <div className="mt-24 p-12 bg-accent text-dark brutalist-border">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                             <div>
-                                <h2 className="text-5xl md:text-6xl font-black font-heading tracking-tighter mb-4 leading-none uppercase whitespace-pre-line">
+                                <h2 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tighter mb-4 leading-none uppercase whitespace-pre-line">
                                     {t('programs.customDeal')}
                                 </h2>
                                 <p className="text-lg font-black tracking-widest uppercase opacity-80">

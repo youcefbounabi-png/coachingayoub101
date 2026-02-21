@@ -40,7 +40,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
 
     const nextStep = () => {
         if (step === 1 && (!formData.fullName || !formData.email)) {
-            setError('Please fill in required contact info');
+            setError(t('onboarding.errContact'));
             return;
         }
         setError('');
@@ -58,7 +58,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
         setError('');
 
         if (!supabase || !supabase.storage) {
-            setError('System configuration error: Supabase client is not initialized or missing storage capability. Please check your Vercel Environment Variables.');
+            setError(t('onboarding.errConfig'));
             setLoading(false);
             return;
         }
@@ -101,7 +101,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
         } catch (err) {
             console.error('Onboarding submission full error:', err);
             const e = err as any;
-            setError(`Submission failed: ${e.message || 'Unknown error'}. Please check if photos are too large or connection is unstable.`);
+            setError(t('onboarding.errSubmit', { message: e.message || 'Unknown error' }));
         } finally {
             setLoading(false);
         }
@@ -111,8 +111,8 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
         <div className="brutalist-border bg-surface p-8 space-y-8 animate-liquid-fade">
             <div className="border-b-4 border-accent pb-4 flex justify-between items-end">
                 <div>
-                    <span className="text-xs font-black tracking-[0.4em] text-gray-500 uppercase block mb-1">Onboarding</span>
-                    <h2 className="text-3xl font-black font-heading tracking-tighter uppercase italic">Athlete Protocol (v1.1)</h2>
+                    <span className="text-xs font-black tracking-[0.4em] text-gray-500 uppercase block mb-1">{t('onboarding.title')}</span>
+                    <h2 className="text-3xl font-black font-heading tracking-tighter uppercase italic">{t('onboarding.subtitle')}</h2>
                 </div>
                 <div className="flex gap-2">
                     {[1, 2, 3].map(i => (
@@ -138,7 +138,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                             className="space-y-6"
                         >
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">Full Name *</label>
+                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">{t('onboarding.fullName')}</label>
                                 <input
                                     required
                                     type="text"
@@ -148,7 +148,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">Email Address *</label>
+                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">{t('onboarding.email')}</label>
                                 <input
                                     required
                                     type="email"
@@ -158,7 +158,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">Phone / WhatsApp</label>
+                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">{t('onboarding.phone')}</label>
                                 <input
                                     type="tel"
                                     className="w-full bg-dark border-2 border-border p-4 text-white focus:border-accent outline-none font-bold uppercase transition-all"
@@ -179,7 +179,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                         >
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black tracking-widest text-accent uppercase">Height (cm)</label>
+                                    <label className="text-[10px] font-black tracking-widest text-accent uppercase">{t('onboarding.height')}</label>
                                     <input
                                         type="number"
                                         className="w-full bg-dark border-2 border-border p-4 text-white focus:border-accent outline-none font-bold uppercase transition-all"
@@ -188,7 +188,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black tracking-widest text-accent uppercase">Weight (kg)</label>
+                                    <label className="text-[10px] font-black tracking-widest text-accent uppercase">{t('onboarding.weight')}</label>
                                     <input
                                         type="number"
                                         className="w-full bg-dark border-2 border-border p-4 text-white focus:border-accent outline-none font-bold uppercase transition-all"
@@ -198,13 +198,13 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">Health Problems / Injuries</label>
+                                <label className="text-[10px] font-black tracking-widest text-accent uppercase">{t('onboarding.healthProblems')}</label>
                                 <textarea
                                     className="w-full bg-dark border-2 border-border p-4 text-white focus:border-accent outline-none font-bold uppercase transition-all"
                                     rows={3}
                                     value={formData.healthProblems}
                                     onChange={e => setFormData({ ...formData, healthProblems: e.target.value })}
-                                    placeholder="None"
+                                    placeholder={t('onboarding.placeholderNone')}
                                 />
                             </div>
                         </motion.div>
@@ -219,12 +219,12 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                             className="space-y-6"
                         >
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black tracking-widest text-accent uppercase block">Current Physique (3 Photos Required: Front, Side, Back)</label>
+                                <label className="text-[10px] font-black tracking-widest text-accent uppercase block">{t('onboarding.physiqueLabel')}</label>
                                 <div
                                     onClick={() => fileInputRef.current?.click()}
                                     className="border-2 border-dashed border-border p-10 text-center cursor-pointer hover:border-accent transition-colors bg-dark/50"
                                 >
-                                    <span className="text-xs font-black tracking-widest text-gray-500 uppercase">Click to Upload Physics</span>
+                                    <span className="text-xs font-black tracking-widest text-gray-500 uppercase">{t('onboarding.clickToUpload')}</span>
                                     <input
                                         type="file"
                                         hidden
@@ -264,7 +264,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                             disabled={loading}
                             className="flex-1 py-4 border-2 border-border text-white font-black tracking-widest text-xs hover:bg-white hover:text-black transition-all uppercase"
                         >
-                            &larr; Back
+                            &larr; {t('common.back')}
                         </button>
                     )}
 
@@ -274,7 +274,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                             onClick={nextStep}
                             className="flex-[2] py-4 bg-white text-black font-black tracking-widest text-xs hover:bg-accent hover:shadow-[8px_8px_0px_0px_white] transition-all uppercase"
                         >
-                            Continue &rarr;
+                            {t('onboarding.continue')} &rarr;
                         </button>
                     ) : (
                         <button
@@ -282,7 +282,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ planId, onComplete }) =
                             disabled={loading || files.length === 0}
                             className="flex-[2] py-4 bg-accent text-black font-black tracking-widest text-xs hover:bg-white hover:shadow-[8px_8px_0px_0px_accent] transition-all uppercase disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Submitting Protocol...' : 'Complete & Go to Payment'}
+                            {loading ? t('onboarding.submitting') : t('onboarding.completeToPayment')}
                         </button>
                     )}
                 </div>
