@@ -26,8 +26,15 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
             });
 
             if (!res.ok) {
-                const errorData = await res.json().catch(() => ({ error: 'Network error' }));
-                throw new Error(errorData.error || `Chargily checkout failed (${res.status})`);
+                const text = await res.text().catch(() => '');
+                let errorMsg = `Payment error (${res.status})`;
+                try {
+                    const data = JSON.parse(text);
+                    if (data.error) errorMsg = data.error;
+                } catch {
+                    if (text.includes('<!DOCTYPE html>')) errorMsg = `Server Error (${res.status}): API not found or crashed.`;
+                }
+                throw new Error(errorMsg);
             }
 
             const data = await res.json();
@@ -38,7 +45,7 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
             window.location.href = data.checkoutUrl;
         } catch (err) {
             const e = err as Error;
-            const errorMessage = e.message.includes('Failed to fetch') || e.message.includes('Network')
+            const errorMessage = e.message.includes('Failed to fetch') || e.message === 'Network error'
                 ? 'Payment service unavailable. Please check your internet connection and try again.'
                 : e.message;
             setError(errorMessage);
@@ -57,8 +64,15 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
             });
 
             if (!res.ok) {
-                const errorData = await res.json().catch(() => ({ error: 'Network error' }));
-                throw new Error(errorData.error || `PayPal order creation failed (${res.status})`);
+                const text = await res.text().catch(() => '');
+                let errorMsg = `Payment error (${res.status})`;
+                try {
+                    const data = JSON.parse(text);
+                    if (data.error) errorMsg = data.error;
+                } catch {
+                    if (text.includes('<!DOCTYPE html>')) errorMsg = `Server Error (${res.status}): API not found or crashed.`;
+                }
+                throw new Error(errorMsg);
             }
 
             const data = await res.json();
@@ -70,7 +84,7 @@ const PaymentOptions: React.FC<PaymentOptionsProps> = ({ planId, planName, price
             }
         } catch (err) {
             const e = err as Error;
-            const errorMessage = e.message.includes('Failed to fetch') || e.message.includes('Network')
+            const errorMessage = e.message.includes('Failed to fetch') || e.message === 'Network error'
                 ? 'Payment service unavailable. Please check your internet connection and try again.'
                 : e.message;
             setError(errorMessage);
